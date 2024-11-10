@@ -1,0 +1,96 @@
+.bookingWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2rem;
+  gap: 10px;
+  overflow-x: hidden;
+}
+.dateTimeWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+}
+.fieldset {
+  width: 100%;
+  font-family: "Work Sans";
+  font-size: 1.2rem;
+  font-weight: 400;
+  border-radius: 4px;
+  height: 52px;
+  margin: 0;
+  border: 1px solid #441d81;
+  box-sizing: border-box;
+  padding: 0.5 1rem;
+}
+.fieldset > legend {
+  color: #441d81;
+  padding: 0 0.5rem;
+  margin-left: 5px;
+}
+.input {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  font-family: "Work Sans";
+  font-size: 1.6rem;
+}
+.submitButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background-color: #ec315a;
+  color: #fff;
+  border-radius: 4px;
+  border: 0;
+  font-family: "Work Sans";
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.dummyInput {
+  font-family: "Work Sans";
+  font-size: 22px;
+}
+.totalPrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+  margin: 2rem 0 0;
+  border-radius: 4px;
+  border: 1px solid #ec315a;
+  color: #ec315a;
+  padding: 0 1rem;
+  font-size: 20px;
+  font-family: "Work Sans";
+}
+.totalPrice_title {
+  font-weight: bold;
+}
+a {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 52px;
+  margin: 2rem 0 0;
+  border-radius: 4px;
+  border: 1px dotted #ec315a;
+  color: #ec315a;
+  padding: 0 1rem;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Work Sans";
+  opacity: 0.5;
+}

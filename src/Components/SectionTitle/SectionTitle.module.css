@@ -1,0 +1,22 @@
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Bebas Neue";
+  font-weight: 400;
+  font-size: 24px;
+  color: #441d81;
+  margin: 1.5rem 0 1rem;
+}
+.sectionTitle::before,
+.sectionTitle::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid #441d81;
+}
+.sectionTitle::before {
+  margin: 0 10px 0 0;
+}
+.sectionTitle::after {
+  margin: 0 0 0 10px;
+}
