@@ -12,8 +12,8 @@ type BookingProps = {
 };
 
 const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
-  const todaysDate = new Date();
-  const formattedDate = todaysDate.toISOString().slice(0, 10);
+  const todaysDate: Date = new Date();
+  const formattedDate: string = todaysDate.toISOString().slice(0, 10);
 
   const [bookingDate, setBookingDate] = useState<string>(formattedDate);
   const [bookingTime, setBookingTime] = useState<string>("20:00");
@@ -25,7 +25,6 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
   const [postData, setPostData] = useState<postDataType>();
 
   useEffect(() => {
-    // Set the number of indexs of the shoes array according to number of players
     setBookingShoes((prevShoes) => {
       if (prevShoes.length === bookingBowlers) return prevShoes;
 
@@ -41,10 +40,11 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
   // Post to API
   useEffect(() => {
     const postDataToApi = async () => {
-      const API_URL = "https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com";
-      const API_KEY = "738c6b9d-24cf-47c3-b688-f4f4c5747662";
+      const API_URL: string =
+        "https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com";
+      const API_KEY: string = "738c6b9d-24cf-47c3-b688-f4f4c5747662";
       try {
-        const response = await toast.promise(
+        const response: Response = await toast.promise(
           fetch(API_URL, {
             method: "POST",
             headers: {
@@ -59,8 +59,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
           },
           { hideProgressBar: true }
         );
-        const data = await response.json();
-        setApiResponse(data);
+        setApiResponse(await response.json());
       } catch (error) {
         console.log("Failed to post data:", error);
       }
@@ -79,7 +78,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
 
   const handleSubmit = () => {
     if (bookingLanes > 0 && bookingBowlers > 0 && !bookingShoes.includes(0)) {
-      const postInfo = {
+      const postInfo: postDataType = {
         when: `${bookingDate}T${bookingTime}`,
         lanes: bookingLanes,
         people: bookingBowlers,
@@ -88,7 +87,9 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
       setPostData(postInfo);
     } else {
       if (bookingShoes.includes(0)) {
-        const zeroCount = bookingShoes.filter((shoe) => shoe === 0).length;
+        const zeroCount: number = bookingShoes.filter(
+          (shoe) => shoe === 0
+        ).length;
         toast.error(
           `${zeroCount} ${
             zeroCount === 1 ? "person is" : "people are"
