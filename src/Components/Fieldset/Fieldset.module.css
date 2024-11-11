@@ -1,0 +1,25 @@
+.input {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  font-family: "Work Sans";
+  font-size: 1.6rem;
+}
+.fieldset {
+  width: 100%;
+  font-family: "Work Sans";
+  font-size: 1.2rem;
+  font-weight: 400;
+  border-radius: 4px;
+  height: 52px;
+  margin: 0;
+  border: 1px solid #441d81;
+  box-sizing: border-box;
+  padding: 0.5 1rem;
+}
+.fieldset > legend {
+  color: #441d81;
+  padding: 0 0.5rem;
+  margin-left: 5px;
+}

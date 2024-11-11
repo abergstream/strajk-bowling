@@ -5,8 +5,12 @@ import styles from "./Booking.module.css";
 import { postDataType, responseType } from "../../Types/types";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import {
+  FieldsetSelect,
+  FieldsetString,
+} from "../../Components/Fieldset/Fieldset";
+import FieldsetNumber from "../../Components/Fieldset/Fieldset";
 
-const shoeSizes: number[] = [36, 37, 38, 39, 40, 41, 42, 43, 44, 45];
 type BookingProps = {
   setApiResponse: React.Dispatch<React.SetStateAction<responseType>>;
 };
@@ -75,7 +79,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
     });
     setBookingShoes(updated);
   };
-
+  console.log(bookingShoes);
   const handleSubmit = () => {
     if (bookingLanes > 0 && bookingBowlers > 0 && !bookingShoes.includes(0)) {
       const postInfo: postDataType = {
@@ -106,77 +110,42 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
       className={styles.bookingWrapper}
     >
       <Header title="BOOKING" />
+
       <SectionTitle title="WHEN, WHAT & WHO" />
       <div className={styles.dateTimeWrapper}>
-        <fieldset className={styles.fieldset}>
-          <legend>DATE</legend>
-          <input
-            className={styles.input}
-            type="date"
-            min={formattedDate}
-            value={bookingDate}
-            onChange={(e) => setBookingDate(e.target.value)}
-          />
-        </fieldset>
-        <fieldset className={styles.fieldset}>
-          <legend>TIME</legend>
-          <input
-            className={styles.input}
-            type="time"
-            value={bookingTime}
-            onChange={(e) => setBookingTime(e.target.value)}
-          />
-        </fieldset>
+        <FieldsetString
+          title="date"
+          date={formattedDate}
+          value={bookingDate}
+          setValue={setBookingDate}
+        />
+        <FieldsetString
+          title="time"
+          value={bookingTime}
+          setValue={setBookingTime}
+        />
       </div>
-      <fieldset className={styles.fieldset}>
-        <legend>NUMBER OF BOWLERS</legend>
-        <input
-          className={styles.input}
-          type="number"
-          min="1"
-          value={bookingBowlers}
-          onChange={(e) => {
-            const value = e.target.value;
-            setBookingBowlers(value ? parseInt(value) : 0);
-          }}
-        />
-      </fieldset>
-      <fieldset className={styles.fieldset}>
-        <legend>NUMBER OF LANES</legend>
-        <input
-          className={styles.input}
-          type="number"
-          min="1"
-          value={bookingLanes}
-          onChange={(e) => {
-            const value = e.target.value;
-            setBookingLanes(value ? parseInt(value) : 0);
-          }}
-        />
-      </fieldset>
+      <FieldsetNumber
+        title="Number of bowlers"
+        value={bookingBowlers}
+        setValue={setBookingBowlers}
+      />
+      <FieldsetNumber
+        title="Number of lanes"
+        value={bookingLanes}
+        setValue={setBookingLanes}
+      />
 
       {validateNumbers(bookingBowlers, bookingLanes) && (
         <>
           <SectionTitle title="SHOES" />
           {bookingBowlers &&
-            Array.from({ length: bookingBowlers }, (_, i) => (
-              <fieldset key={i} className={styles.fieldset}>
-                <legend>SHOE SIZE / PERSON {i + 1}</legend>
-                <select
-                  className={styles.input}
-                  onChange={(e) => {
-                    handleShoeSize(i, parseInt(e.target.value));
-                  }}
-                >
-                  <option value="0">Choose size</option>
-                  {shoeSizes &&
-                    shoeSizes.map((size) => (
-                      <option key={size} value={size}>
-                        Euro {size}
-                      </option>
-                    ))}
-                </select>
-              </fieldset>
+            Array.from({ length: bookingBowlers }, (_, index) => (
+              <FieldsetSelect
+                key={`Shoe-${index}`}
+                index={index}
+                changeSize={handleShoeSize}
+              />
             ))}
           <motion.button
             whileTap={{ scale: 0.97, boxShadow: "inset 2px 2px 6px #333" }}

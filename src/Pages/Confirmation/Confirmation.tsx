@@ -4,7 +4,6 @@ import SectionTitle from "../../Components/SectionTitle/SectionTitle";
 import { responseType } from "../../Types/types";
 import styles from "../Booking/Booking.module.css";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
 type apiResposeProps = {
   apiResponse: responseType;
@@ -14,9 +13,6 @@ type FieldsetType = {
   text: string;
 };
 const Confirmation: React.FC<apiResposeProps> = ({ apiResponse }) => {
-  useEffect(() => {
-    window.scrollTo(0, 0); // Scrolls to the top of the page
-  }, []);
   const Fieldset: React.FC<FieldsetType> = ({ title, text }) => {
     return (
       <fieldset className={styles.fieldset}>

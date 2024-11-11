@@ -28,6 +28,11 @@ function App() {
     }
   }, [apiResponse]);
 
+  // Scrolls to the top of the page when changing location
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <>
       {location.pathname != "/" && (
@@ -40,6 +45,7 @@ function App() {
             draggable
             pauseOnHover
           />
+
           <Navigation />
         </>
       )}
