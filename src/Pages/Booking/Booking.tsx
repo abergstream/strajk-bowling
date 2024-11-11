@@ -21,10 +21,11 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
   const [bookingLanes, setBookingLanes] = useState<number>(1);
   const [bookingShoes, setBookingShoes] = useState<number[]>([]);
 
+  // JSON to use in fetch body
   const [postData, setPostData] = useState<postDataType>();
-  const [validateForm, setValidateForm] = useState<Boolean>(false);
 
   useEffect(() => {
+    // Set the number of indexs of the shoes array according to number of players
     setBookingShoes((prevShoes) => {
       if (prevShoes.length === bookingBowlers) return prevShoes;
 
@@ -37,18 +38,27 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
     });
   }, [bookingBowlers]);
 
+  // Post to API
   useEffect(() => {
     const postDataToApi = async () => {
       const API_URL = "https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com";
       const API_KEY = "738c6b9d-24cf-47c3-b688-f4f4c5747662";
       try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "x-api-key": API_KEY,
+        const response = await toast.promise(
+          fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "x-api-key": API_KEY,
+            },
+            body: JSON.stringify(postData),
+          }),
+          {
+            pending: "Booking in progress",
+            success: "Booking confirmed",
+            error: "Can not connect to API",
           },
-          body: JSON.stringify(postData),
-        });
+          { hideProgressBar: true }
+        );
         const data = await response.json();
         setApiResponse(data);
       } catch (error) {
@@ -57,21 +67,8 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
     };
     if (postData) {
       postDataToApi();
-      setValidateForm(false);
     }
   }, [postData]);
-
-  useEffect(() => {
-    if (validateForm) {
-      const postInfo = {
-        when: `${bookingDate}T${bookingTime}`,
-        lanes: bookingLanes,
-        people: bookingBowlers,
-        shoes: bookingShoes,
-      };
-      setPostData(postInfo);
-    }
-  }, [validateForm]);
 
   const handleShoeSize = (optionIndex: number, optionValue: number) => {
     const updated = bookingShoes.map((value, index) => {
@@ -82,17 +79,28 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
 
   const handleSubmit = () => {
     if (bookingLanes > 0 && bookingBowlers > 0 && !bookingShoes.includes(0)) {
-      setValidateForm(true);
+      const postInfo = {
+        when: `${bookingDate}T${bookingTime}`,
+        lanes: bookingLanes,
+        people: bookingBowlers,
+        shoes: bookingShoes,
+      };
+      setPostData(postInfo);
     } else {
       if (bookingShoes.includes(0)) {
-        toast.error("One or more people are missing a shoe size.");
+        const zeroCount = bookingShoes.filter((shoe) => shoe === 0).length;
+        toast.error(
+          `${zeroCount} ${
+            zeroCount === 1 ? "person is" : "people are"
+          } missing a shoe size.`
+        );
       }
     }
   };
 
   return (
     <motion.div
-      initial={{ x: "-100%" }}
+      initial={{ x: "100%" }}
       animate={{ x: 0, filter: ["blur(4px)", "blur(0)"] }}
       className={styles.bookingWrapper}
     >
@@ -124,6 +132,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
         <input
           className={styles.input}
           type="number"
+          min="1"
           value={bookingBowlers}
           onChange={(e) => {
             const value = e.target.value;
@@ -136,6 +145,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
         <input
           className={styles.input}
           type="number"
+          min="1"
           value={bookingLanes}
           onChange={(e) => {
             const value = e.target.value;
@@ -167,9 +177,13 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
                 </select>
               </fieldset>
             ))}
-          <button className={styles.submitButton} onClick={handleSubmit}>
+          <motion.button
+            whileTap={{ scale: 0.97, boxShadow: "inset 2px 2px 6px #333" }}
+            className={styles.submitButton}
+            onClick={handleSubmit}
+          >
             book lanes
-          </button>
+          </motion.button>
         </>
       )}
       {!validateNumbers(bookingBowlers, bookingLanes) && (
@@ -177,7 +191,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
           {bookingLanes > 0 && bookingBowlers > 0 && (
             <div className={styles.error}>
               {bookingLanes / bookingBowlers < 0.25
-                ? "Max 4 person per lane"
+                ? "Max 4 people per lane"
                 : "Max 1 lane per person"}
             </div>
           )}

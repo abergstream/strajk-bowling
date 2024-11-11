@@ -11,3 +11,12 @@ body {
   overflow-x: hidden;
   width: 100svw;
 }
+#root {
+  max-width: 430px;
+  min-width: 320px;
+  width: 100%;
+  min-height: 100svh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  position: relative;
+}
