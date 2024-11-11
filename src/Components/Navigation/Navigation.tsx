@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./Navigation.module.css";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import { s } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
 const Navigation = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const navigate = useNavigate();
