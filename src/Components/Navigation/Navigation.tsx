@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import styles from "./Navigation.module.css";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -34,11 +34,13 @@ type itemVariantsType = {
     x: number;
   };
 };
+
 const Navigation = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const navItems: string[] = ["booking", "confirmation"];
+
   const variants: variantsType = {
     open: {
       x: 0,
@@ -60,6 +62,7 @@ const Navigation = () => {
       },
     },
   };
+
   const itemVariants: itemVariantsType = {
     open: { opacity: 1, x: [-50, 0] },
     closed: { opacity: 0, x: -50 },
