@@ -1,5 +1,5 @@
 .navButton {
-  position: fixed;
+  position: absolute;
   left: 1rem;
   top: 1rem;
   z-index: 999;
@@ -7,9 +7,10 @@
 }
 .navigation {
   width: 100%;
+  max-width: 430px;
   height: 100svh;
   background-color: #1c1919;
-  position: fixed;
+  position: absolute;
   z-index: 2;
   display: flex;
   justify-content: center;

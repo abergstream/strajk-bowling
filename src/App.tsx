@@ -23,7 +23,6 @@ function App() {
 
   useEffect(() => {
     if (apiResponse.when) {
-      console.log("RESPONSE: ", apiResponse);
       navigate("/confirmation");
     }
   }, [apiResponse]);

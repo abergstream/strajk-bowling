@@ -23,8 +23,9 @@ const Confirmation: React.FC<apiResposeProps> = ({ apiResponse }) => {
   };
   return (
     <motion.div
-      initial={{ x: "100%" }}
-      animate={{ x: 0, filter: ["blur(4px)", "blur(0)"] }}
+      initial={{ y: "100%" }}
+      animate={{ y: 0, filter: ["blur(4px)", "blur(0)"] }}
+      transition={{ duration: 0.25, delay: 0.2 }}
       className={styles.bookingWrapper}
     >
       {apiResponse.when ? (
@@ -32,8 +33,18 @@ const Confirmation: React.FC<apiResposeProps> = ({ apiResponse }) => {
           <Header title="SEE YOU SOON" />
           <SectionTitle title="BOOKING DETAILS" />
           <Fieldset title="WHEN" text={formatDate(apiResponse.when)} />
-          <Fieldset title="WHO" text={`${apiResponse.people}`} />
-          <Fieldset title="LANES" text={`${apiResponse.lanes}`} />
+          <Fieldset
+            title="WHO"
+            text={`${apiResponse.people} ${
+              apiResponse.people == 1 ? "person" : "people"
+            }`}
+          />
+          <Fieldset
+            title="LANES"
+            text={`${apiResponse.lanes} ${
+              apiResponse.lanes == 1 ? "lane" : "lanes"
+            }`}
+          />
           <Fieldset title="BOOKING NUMBER" text={`${apiResponse.id}`} />
           <div className={styles.totalPrice}>
             <div className={styles.totalPrice_title}>Total</div>

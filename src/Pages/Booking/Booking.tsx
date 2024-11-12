@@ -79,9 +79,9 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
     });
     setBookingShoes(updated);
   };
-  console.log(bookingShoes);
+
   const handleSubmit = () => {
-    if (bookingLanes > 0 && bookingBowlers > 0 && !bookingShoes.includes(0)) {
+    if (!bookingShoes.includes(0)) {
       const postInfo: postDataType = {
         when: `${bookingDate}T${bookingTime}`,
         lanes: bookingLanes,
@@ -90,28 +90,28 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
       };
       setPostData(postInfo);
     } else {
-      if (bookingShoes.includes(0)) {
-        const zeroCount: number = bookingShoes.filter(
-          (shoe) => shoe === 0
-        ).length;
-        toast.error(
-          `${zeroCount} ${
-            zeroCount === 1 ? "person is" : "people are"
-          } missing a shoe size.`
-        );
-      }
+      const zeroCount: number = bookingShoes.filter(
+        (shoe) => shoe === 0
+      ).length;
+      toast.error(
+        `${zeroCount} ${
+          zeroCount === 1 ? "person is" : "people are"
+        } missing a shoe size.`
+      );
     }
   };
 
   return (
     <motion.div
-      initial={{ x: "100%" }}
-      animate={{ x: 0, filter: ["blur(4px)", "blur(0)"] }}
+      initial={{ y: "100%" }}
+      animate={{ y: 0, filter: ["blur(4px)", "blur(0)"] }}
+      transition={{ duration: 0.25, delay: 0.2 }}
       className={styles.bookingWrapper}
     >
       <Header title="BOOKING" />
 
       <SectionTitle title="WHEN, WHAT & WHO" />
+
       <div className={styles.dateTimeWrapper}>
         <FieldsetString
           title="date"
@@ -125,37 +125,41 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
           setValue={setBookingTime}
         />
       </div>
+
       <FieldsetNumber
         title="Number of bowlers"
         value={bookingBowlers}
         setValue={setBookingBowlers}
       />
+
       <FieldsetNumber
         title="Number of lanes"
         value={bookingLanes}
         setValue={setBookingLanes}
       />
 
-      {validateNumbers(bookingBowlers, bookingLanes) && (
-        <>
-          <SectionTitle title="SHOES" />
-          {bookingBowlers &&
-            Array.from({ length: bookingBowlers }, (_, index) => (
-              <FieldsetSelect
-                key={`Shoe-${index}`}
-                index={index}
-                changeSize={handleShoeSize}
-              />
-            ))}
-          <motion.button
-            whileTap={{ scale: 0.97, boxShadow: "inset 2px 2px 6px #333" }}
-            className={styles.submitButton}
-            onClick={handleSubmit}
-          >
-            book lanes
-          </motion.button>
-        </>
-      )}
+      {validateNumbers(bookingBowlers, bookingLanes) &&
+        validateDate(bookingDate) && (
+          <>
+            <SectionTitle title="SHOES" />
+            {bookingShoes.map((_, index) => {
+              return (
+                <FieldsetSelect
+                  key={`Shoe-${index}`}
+                  index={index}
+                  changeSize={handleShoeSize}
+                />
+              );
+            })}
+            <motion.button
+              whileTap={{ scale: 0.97, boxShadow: "inset 2px 2px 6px #333" }}
+              className={styles.submitButton}
+              onClick={handleSubmit}
+            >
+              book lanes
+            </motion.button>
+          </>
+        )}
       {!validateNumbers(bookingBowlers, bookingLanes) && (
         <>
           {bookingLanes > 0 && bookingBowlers > 0 && (
@@ -177,5 +181,14 @@ const validateNumbers = (bowlers: number, lanes: number) => {
   }
   return lanes <= bowlers && lanes / bowlers >= 0.25;
 };
+const validateDate = (bookingDate: string) => {
+  const today = new Date();
+  const inputDate = new Date(bookingDate);
 
+  // Remove time part for accurate comparison
+  today.setHours(0, 0, 0, 0);
+  inputDate.setHours(0, 0, 0, 0);
+
+  return inputDate >= today;
+};
 export default Booking;

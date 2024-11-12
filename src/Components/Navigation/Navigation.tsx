@@ -5,21 +5,21 @@ import { useNavigate } from "react-router-dom";
 
 type variantsType = {
   open: {
-    x: number;
+    y: number;
     transition: {
       ease: string;
       duration: number;
       staggerChildren: number;
       delayChildren: number;
+      staggerDirection: number;
     };
   };
   closed: {
-    x: string;
+    y: string;
     transition: {
       ease: string;
       duration: number;
       staggerChildren: number;
-      delayChildren: number;
       delay: number;
     };
   };
@@ -27,11 +27,11 @@ type variantsType = {
 type itemVariantsType = {
   open: {
     opacity: number;
-    x: number[];
+    y: number;
   };
   closed: {
     opacity: number;
-    x: number;
+    y: number;
   };
 };
 
@@ -43,29 +43,29 @@ const Navigation = () => {
 
   const variants: variantsType = {
     open: {
-      x: 0,
+      y: 0,
       transition: {
         ease: "easeOut",
         duration: 0.3,
         staggerChildren: 0.1,
-        delayChildren: 0.1,
+        delayChildren: 0.2,
+        staggerDirection: -1,
       },
     },
     closed: {
-      x: "-100%",
+      y: "-100%",
       transition: {
         ease: "easeOut",
         duration: 0.3,
-        staggerChildren: 0.1,
-        delayChildren: 0,
+        staggerChildren: 0.2,
         delay: 0.1,
       },
     },
   };
 
   const itemVariants: itemVariantsType = {
-    open: { opacity: 1, x: [-50, 0] },
-    closed: { opacity: 0, x: -50 },
+    open: { opacity: 1, y: 0 },
+    closed: { opacity: 0, y: -50 },
   };
 
   return (
@@ -83,10 +83,12 @@ const Navigation = () => {
         animate={navOpen ? "open" : "closed"}
         variants={variants}
         className={styles.navigation}
+        style={{ position: navOpen ? "fixed" : "absolute" }}
       >
         {navItems.map((navItem) => {
           return (
             <motion.div
+              key={navItem}
               whileTap={{ scale: 0.9 }}
               className={styles.navItem}
               variants={itemVariants}
