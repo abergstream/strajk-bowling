@@ -56,7 +56,7 @@ const Navigation = () => {
       y: "-100%",
       transition: {
         ease: "easeOut",
-        duration: 0.3,
+        duration: 0.15,
         staggerChildren: 0.2,
         delay: 0.1,
       },

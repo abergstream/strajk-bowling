@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Confirmation from "./Pages/Confirmation/Confirmation";
 import Navigation from "./Components/Navigation/Navigation";
 import LandingPage from "./Pages/LandingPage/LandingPage";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const navigate = useNavigate();
@@ -48,18 +49,20 @@ function App() {
           <Navigation />
         </>
       )}
-      <Routes>
-        <Route index element={<LandingPage />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route index element={<LandingPage />} />
 
-        <Route
-          path="/booking"
-          element={<Booking setApiResponse={setApiResponse} />}
-        />
-        <Route
-          path="/confirmation"
-          element={<Confirmation apiResponse={apiResponse} />}
-        />
-      </Routes>
+          <Route
+            path="/booking"
+            element={<Booking setApiResponse={setApiResponse} />}
+          />
+          <Route
+            path="/confirmation"
+            element={<Confirmation apiResponse={apiResponse} />}
+          />
+        </Routes>
+      </AnimatePresence>
     </>
   );
 }

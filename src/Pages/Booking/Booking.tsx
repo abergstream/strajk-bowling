@@ -105,7 +105,7 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
     <motion.div
       initial={{ y: "100%" }}
       animate={{ y: 0, filter: ["blur(4px)", "blur(0)"] }}
-      transition={{ duration: 0.25, delay: 0.2 }}
+      transition={{ duration: 0.25 }}
       className={styles.bookingWrapper}
     >
       <Header title="BOOKING" />
@@ -170,6 +170,9 @@ const Booking: React.FC<BookingProps> = ({ setApiResponse }) => {
             </div>
           )}
         </>
+      )}
+      {!validateDate(bookingDate) && (
+        <div className={styles.error}>Date must be today or later</div>
       )}
     </motion.div>
   );
