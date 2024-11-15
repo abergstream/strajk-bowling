@@ -2,8 +2,8 @@
 
 ### Errors
 
-![Errors](errors.gif =250x)
+![Errors](errors.gif)
 
 ### Booking
 
-![Booking](booking.gif =250x)
+![Booking](booking.gif)
