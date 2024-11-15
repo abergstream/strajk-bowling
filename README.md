@@ -2,8 +2,8 @@
 
 ### Errors
 
-![Errors](errors.gif)
+<img src="errors.gif" alt="Errors" width="250">
 
 ### Booking
 
-![Booking](booking.gif)
+<img src="booking.gif" alt="Booking" width="250">
